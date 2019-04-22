@@ -1,15 +1,11 @@
 package compose
 
 import (
-	"fmt"
-
 	composeapi "github.com/compose/gocomposeapi"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
 func Provider() *schema.Provider {
-	deployment := composeapi.Deployment{}
-	fmt.Print(deployment)
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"api_token": {

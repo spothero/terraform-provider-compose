@@ -2,6 +2,7 @@ package compose
 
 import (
 	"github.com/compose/gocomposeapi"
+	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -59,7 +60,7 @@ func resourceDeploymentCreate(d *schema.ResourceData, m interface{}) error {
 
 	deployment, errs := client.CreateDeployment(deploymentParams)
 	if errs != nil {
-		return errs[0]
+		return concatErrors(errs)
 	}
 
 	d.SetId(deployment.ID)
@@ -75,8 +76,16 @@ func resourceDeploymentDelete(d *schema.ResourceData, m interface{}) error {
 
 	_, errs := client.DeprovisionDeployment(d.Id())
 	if errs != nil {
-		return errs[0]
+		return concatErrors(errs)
 	}
 
 	return nil
+}
+
+func concatErrors(errs []error) error {
+	var result error
+	for _, e := range errs {
+		result = multierror.Append(result, e)
+	}
+	return result
 }
