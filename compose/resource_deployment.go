@@ -44,6 +44,13 @@ func resourceDeployment() *schema.Resource {
 				ForceNew:    true,
 				Default:     "",
 			},
+			"units": {
+				Type:        schema.TypeInt,
+				Description: "Number of resource units to allocate to the deployment",
+				Optional:    true,
+				ForceNew:    true,
+				Default:     "",
+			},
 		},
 	}
 }
@@ -56,6 +63,7 @@ func resourceDeploymentCreate(d *schema.ResourceData, m interface{}) error {
 		Datacenter:   d.Get("datacenter").(string),
 		DatabaseType: d.Get("type").(string),
 		Version:      d.Get("version").(string),
+		Units:      d.Get("units").(int),
 	}
 
 	deployment, errs := client.CreateDeployment(deploymentParams)
@@ -64,10 +72,21 @@ func resourceDeploymentCreate(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(deployment.ID)
-	return nil
+	return resourceDeploymentRead(d, m)
 }
 
 func resourceDeploymentRead(d *schema.ResourceData, m interface{}) error {
+	client := m.(*composeapi.Client)
+	deployment, errs := client.GetDeployment(d.Id())
+
+	if errs != nil {
+		return concatErrors(errs)
+	}
+
+	d.Set("name", deployment.Name)
+	d.Set("type", deployment.Type)
+	d.Set("version", deployment.Version)
+
 	return nil
 }
 

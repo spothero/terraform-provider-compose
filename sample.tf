@@ -11,4 +11,5 @@ resource "compose_deployment" "my-deployment" {
   datacenter = "aws:us-west-2"
   type = "rabbitmq"
   version = "3.7.9"
+  units = 2
 }

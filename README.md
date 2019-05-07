@@ -33,6 +33,7 @@ resource "compose_deployment" "new-deployment" {
   datacenter = "aws:us-west-2"
   type = "rabbitmq"
   version = "3.7.9"
+  units = 2
 }
 ```
 
@@ -45,3 +46,4 @@ resource "compose_deployment" "new-deployment" {
 | `datacenter`          | Datacenter to deploy to                                            
 | `type`                | Type of deployment         
 | `version`             | Version of software 
+| `units`               | Number of resource units to allocate to the deployment
