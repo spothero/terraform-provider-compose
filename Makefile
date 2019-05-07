@@ -6,6 +6,9 @@ all: lint build
 
 LINTER_INSTALLED := $(shell sh -c 'which golangci-lint')
 
+clean:
+	rm terraform-provider-compose
+
 tidy:
 	go mod tidy
 

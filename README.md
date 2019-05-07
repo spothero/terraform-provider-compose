@@ -47,3 +47,6 @@ resource "compose_deployment" "new-deployment" {
 | `type`                | Type of deployment         
 | `version`             | Version of software 
 | `units`               | Number of resource units to allocate to the deployment
+
+#### License
+Apache 2.0
