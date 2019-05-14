@@ -1,0 +1,9 @@
+version: 2.1
+jobs:
+  all:
+    docker:
+      - image: circleci/golang:1.12
+    steps:
+      - checkout
+      - run: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b /go/bin latest
+      - run: make all
