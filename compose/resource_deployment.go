@@ -77,7 +77,7 @@ func resourceDeploymentCreate(d *schema.ResourceData, m interface{}) error {
 		Datacenter:   d.Get("datacenter").(string),
 		DatabaseType: d.Get("type").(string),
 		Version:      d.Get("version").(string),
-		Units:      d.Get("units").(int),
+		Units:        d.Get("units").(int),
 	}
 
 	deployment, errs := client.CreateDeployment(deploymentParams)
@@ -97,9 +97,15 @@ func resourceDeploymentRead(d *schema.ResourceData, m interface{}) error {
 		return concatErrors(errs)
 	}
 
-	d.Set("name", deployment.Name)
-	d.Set("type", deployment.Type)
-	d.Set("version", deployment.Version)
+	if err := d.Set("name", deployment.Name); err != nil {
+		return err
+	}
+	if err := d.Set("type", deployment.Type); err != nil {
+		return err
+	}
+	if err := d.Set("version", deployment.Version); err != nil {
+		return err
+	}
 
 	return nil
 }
