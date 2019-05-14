@@ -7,6 +7,11 @@ A [Terraform](https://www.terraform.io) plugin for managing [IBM Compose](https:
 This provider uses [gocomposeapi](https://github.com/compose/gocomposeapi) which is a wrapper around 
 the [Compose REST API](https://apidocs.compose.com).
 
+## Building
+
+A Makefile is provided for building the plugin. `make build` will generate the provider binary. The plugin can be
+installed for use by Terraform by following the instructions [here](https://www.terraform.io/docs/configuration/providers.html#third-party-plugins)
+
 ## Provider Configuration
 
 ```
